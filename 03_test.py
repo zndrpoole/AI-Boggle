@@ -22,9 +22,7 @@ def runBoard(boardFile, myDict):
                "temp"
 
    #===========================================================================
-  
-
-
+   
    print("All done")
 
    print("Searched total of " + totalMoves + " moves in " + time + " seconds")
