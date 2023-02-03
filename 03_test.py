@@ -1,31 +1,61 @@
+import time
+
 def runBoard(boardFile, myDict):
-   myBoard = loadBoard("board.txt")
+   # variables
    totalMoves = 0
-   time = 0
-   path = []
 
-   myDict = readDictionary("twl06.txt")
+   # load board from file
+   myBoard = loadBoard(boardFile)
 
+   # read in the dictionary to the myDict list
+   myDict = readDictionary(myDict)
+
+   # print out the board
    printBoard(myBoard)
 
-   print("And we're off!")
-   print("Running with cleverness ON")
-   #===========================================================================
+   # print out starting string and cleverness
+   print("\nAnd we're off!")
+   print("Running with cleverness ON\n")
+
+   # start the clock
+   start = time.perf_counter()
+
+   # Start from every possible location =======================================
    for y_iterator in range(len(myBoard)):
       for x_iterator in range(len(myBoard)):
-         currPosition = x_iterator, y_iterator
+         path = []
+         currPosition = y_iterator, x_iterator
          legal_list = legalMoves(possibleMoves(currPosition, myBoard), path)
-         print(legal_list)
+         # print("LEGAL LIST: ")
+         # print(legal_list)
          for position in legal_list:
-            currWord, isWord = examineState(myBoard, currPosition, path, myDict)
+            currWord, isWord = examineState(myBoard, position, path, myDict)
             if isWord:
                "temp"
 
-   #===========================================================================
-   
+   # ==========================================================================
+   # stop the clock
+   stop = time.perf_counter()
+
+   # print all done string
    print("All done")
 
-   print("Searched total of " + totalMoves + " moves in " + time + " seconds")
+   # calculate the time taken to execute
+   timeTaken = stop - start
+
+   # print the total moves and time taken
+   print(f"Searched total of {totalMoves} moves in {timeTaken:0.8f} seconds")
+
+   # print out the words found:
+   # 2 letter
+   # 3 letter
+   # 4 letter
+   # 5 letter
+
+   # print total words found
+      # length of found word list
+
+   # sorted alphabetically
 
 def readDictionary(filename):
    my_list_of_words = [word.strip() for word in open("twl06.txt")]
@@ -36,10 +66,26 @@ def legalMoves(moves, path):
    return legal_list
 
 def examineState(myBoard, position, path, myDict):
-   # returns tuple
-   for legal_pair in legal_list:
-      legal_x, legal_y = legal_pair
-      myBoard[legal_y][legal_x]
+   concatWord = ""
+   isWord = False
+
+   # add current position tile to the path
+   path.append(position)
+   # print("CURRENT PATH: ")
+   # print(path)
+
+   # compute the word now formed by the updated path
+   for letterCoord in path:
+      x, y = letterCoord
+      wkgLetter = myBoard[x][y]
+      concatWord += wkgLetter
+   
+   # if word is exactly in dictionary
+   
+   # if substring
+
+   # returns tuple of (<current word generated>, <yes/no>)
+   return concatWord, isWord
 
 def loadBoard(boardFile):
    myBoard = [line.split() for line in open("board.txt")]
@@ -67,6 +113,6 @@ def possibleMoves(xy_pair, myBoard):
             move_list.append(new_pair)
    return move_list
 
-runBoard("board2.txt", "twl06.txt")
+runBoard("board4.txt", "twl06.txt")
 # runBoard("board3.txt", "twl06.txt")
 # runBoard("board4.txt", "twl06.txt")
